@@ -1,0 +1,59 @@
+{% extends   "label/base_menu.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extraCss %}
+<link href="{% static 'label/css/chatbox.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+
+<main class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" role="main">
+    <div class="row">
+        <div class="col-4">
+            <div class="container-fluid  p-3 ">
+                <h1 class="display-4">{{ dash.title }}</h1>
+                <p class="lead">{{ dash.content }}</p>
+                <hr class="my-4">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Статус заявки: {{ dash.getStatus }}</li>
+                    <li class="list-group-item">Приоритет:{{ dash.getPriority }}</li>
+                    <li class="list-group-item">Тип обращения:{{ dash.getTypes }}</li>
+                    <li class="list-group-item">Дата создания:{{ dash.data }}</li>
+                </ul>
+                <hr class="my-4">
+                <a class="btn btn-outline-primary" href="#" role="button">Изменить</a>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="container">
+                <div id="messages">
+                    {% for m in chat %}
+                    <div class="msg mb-3">
+                        <div class="media-body p-3">
+                            <div class="row">
+                                <h5 class="media-heading">{{ m.name }}</h5>
+                                <small class="pull-left time"><i class="fa fa-clock-o"></i> {{ m.created }}</small>
+                            </div>
+                            <div class="alert-dark p-3">
+                                <div class="col-12 col-sm-6 col-md-8"><small class="col-sm-11"> {{ m.body }} </small>
+                                </div>
+                                <div class="col-6 col-md-4">{{ m.file }}</div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <hr>
+            {% crispy form %}
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block contentJs %}
+    {% endblock %}
