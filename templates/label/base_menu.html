@@ -14,6 +14,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'label/css/dashboard.css' %}" rel="stylesheet">
+    <link href="{% static 'label/css/menu.css' %}" rel="stylesheet">
 
     {% block extraCss %}
     {% endblock %}
@@ -36,39 +37,34 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
+                        <a class="nav-link" href="#">
+                            <span data-feather="layers"></span>
+                            **
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file"></span>
-                            Orders
+                        <a class="nav-link" href="{% url " ticketForm_create" %}">
+                        <span data-feather="layers"></span>
+                        Создать Заявку
                         </a>
                     </li>
+                    <li class="divider"></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="shopping-cart"></span>
-                            Products
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="users"></span>
-                            Customers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="bar-chart-2"></span>
-                            Reports
+                        <a class="nav-link" dashBourdPagehref="{% url "" %}">
+                        <span data-feather="layers"></span>
+                        Все заявки
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="layers"></span>
-                            Integrations
+                            Ваши заявки
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="layers"></span>
+                            Настройки(Профиль)
                         </a>
                     </li>
                 </ul>

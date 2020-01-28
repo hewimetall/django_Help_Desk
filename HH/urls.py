@@ -23,8 +23,6 @@ urlpatterns = [
     re_path(r'^logout/', Logout.as_view(), name="logout"),
     path('dasboard/', dashBourd.as_view(), name="dashBourdPage"),
     re_path(r'^dasboard/(?P<pk>\d+)/', ticketDetail.as_view(), name='ticketDetail'),
-
-    # re_path(r'^formticket/$', include('login.urls', namespace='author-polls')),
     re_path(r'^formticket/add/$', FormTicketCreate.as_view(), name='ticketForm_create'),
     re_path(r'formticket/(?P<pk>\d+)/$', FormTicketUpdate.as_view(), name='ticketForm_update'),
     re_path(r'formticket/(?P<pk>\d+)/delete/$', FormTicketDelete.as_view(), name='ticketForm_delete'),

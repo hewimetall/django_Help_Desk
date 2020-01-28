@@ -21,8 +21,8 @@ class dashBourdBd(models.Model):
 
     Priority = [
         (1, "Низкий"),
-        (2, "Средний"),
-        (3, "Высокий"),
+        (2, "Нормальный"),
+        (3, "Срочный"),
     ]
 
     TYPE = [
@@ -31,16 +31,19 @@ class dashBourdBd(models.Model):
     ]
 
     STATUS = [
-        (1, "Открыта"),
-        (2, "В работе"),
-        (3, "Ждет контроля"),
-        (4, "Закрыта"),
+        (1, "В обработке"),
+        (2, "Отправленно на доработку"),
+        (3, "В работе"),
+        (4, "Выполнена"),
+        (5, "Закрыта"),
     ]
 
     title = models.CharField(max_length=50)  # Названия заявки
     content = models.TextField()  # Текст обращения
+
     autors = models.ForeignKey(CustomUser, related_name='autorsCr', on_delete=models.DO_NOTHING, )  # Автор обращения
-    # manager_a = models.ForeignKey(CustomUser, related_name='manager_aCr',on_delete=models.DO_NOTHING,blank=True,null=True)  # Ответственный
+    manager_a = models.ForeignKey(CustomUser, related_name='manager_aCr', on_delete=models.DO_NOTHING, blank=True,
+                                  null=True)  # Ответственный
 
     priority = models.IntegerField(choices=Priority, default=Priority[0][0], blank=True, null=True)  # Приоритет заявки
     types = models.IntegerField(choices=TYPE, default=TYPE[0][0], blank=True, null=True)  # Тип заявки
@@ -61,6 +64,9 @@ class dashBourdBd(models.Model):
     def getStatus(self):
         return self.search_tuple(self.STATUS, self.status)[0]
 
+    def getUrl(self):
+        return 0
+
 
 class ticketChat(models.Model):
     post = models.ForeignKey(dashBourdBd, related_name='comments', on_delete=models.CASCADE, db_column='pk')
@@ -72,6 +78,11 @@ class ticketChat(models.Model):
 
     class Meta:
         ordering = ('created',)
+
+    class Options:
+        userField = ['comments', 'id', 'data', 'title', 'content', 'autors', 'priority', 'types', 'status', 'File']
+        manegerField = ['comments', 'id', 'data', 'title', 'content', 'autors', 'priority', 'types', 'status', 'File']
+        tableField = ['comments', 'id', 'data', 'title', 'content', 'autors', 'priority', 'types', 'status', 'File']
 
     def __str__(self):
         return 'Comment by {} on {}'.format(self.name, self.post)

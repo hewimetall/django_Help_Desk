@@ -83,7 +83,8 @@ class FormTicketCreate(LoginRequiredMixin, CreateView):
 class FormTicketUpdate(LoginRequiredMixin, UpdateView):
     model = dashBourdBd
     template_name = "label/htmlForm/FormTicket.html"
-    fields = ['title', 'content', 'autors', 'manager_a', 'priority', 'types', 'status', 'File']
+    fields = ['title', 'content', 'autors', 'priority', 'types', 'status', 'File']
+    success_url = '/'
 
 
 class FormTicketDelete(LoginRequiredMixin, DeleteView):
