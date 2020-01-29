@@ -2,32 +2,41 @@ from django.db import models
 
 from login.models import CustomUser
 
-
 # Create your models here.
 class dashBourdManeger(models.Manager):
-    def getUserAll(self, name=0):
-        if isinstance(name, str):
-            try:
-                User = CustomUser.objects.get(username=name)
-            except:
-                return "No"
-            return super(dashBourdManeger, self).get_queryset().filter(author=User.username)
-        return "Err"
+    def get_group_article_user(self,user):
+        top_user=CustomUser.objects.search_users_via_atr(user=user,atr="groups",value=user.groups)
+        q=Types.objects.filter(meneger=top_user)
+        summ_q=[ dashBourdBd.objects.filter(types=i) for i in q]
+        return summ_q
 
+    def get_article_user_autor(self,user):
+        q=dashBourdBd.objects.filter(autors=user)
+        return q
+
+    def get_article_user_maneger(self,user):
+        q=dashBourdBd.objects.filter(manager_a=user)
+        return q
+
+class Types(models.Model):
+    objects=models.Manager()
+    id=models.AutoField(primary_key=True)
+
+    Types=models.CharField(max_length=120,unique=True)
+    meneger = models.ForeignKey(CustomUser, related_name='menegerTypes', on_delete=models.DO_NOTHING, )  # Автор обращения
+
+    date_created=models.DateTimeField(auto_created=True,auto_now_add=True)
+
+    def __str__(self):
+        return self.Types
 
 class dashBourdBd(models.Model):
-    objects = dashBourdManeger
-    objects_test = models.Manager()
+    objects = dashBourdManeger()
 
     Priority = [
         (1, "Низкий"),
         (2, "Нормальный"),
         (3, "Срочный"),
-    ]
-
-    TYPE = [
-        (1, "Бугалтерия"),
-        (2, "It отделл"),
     ]
 
     STATUS = [
@@ -46,7 +55,7 @@ class dashBourdBd(models.Model):
                                   null=True)  # Ответственный
 
     priority = models.IntegerField(choices=Priority, default=Priority[0][0], blank=True, null=True)  # Приоритет заявки
-    types = models.IntegerField(choices=TYPE, default=TYPE[0][0], blank=True, null=True)  # Тип заявки
+    types= models.ForeignKey(Types, related_name='typesTicket',on_delete=models.DO_NOTHING,)  # Тип заявки
 
     status = models.IntegerField(choices=STATUS, default=STATUS[0][0])  # Статус заявки
     data = models.DateField(auto_created=True, auto_now_add=True, db_index=True)  # Дата на момент создания
@@ -69,7 +78,7 @@ class dashBourdBd(models.Model):
 
 
 class ticketChat(models.Model):
-    post = models.ForeignKey(dashBourdBd, related_name='comments', on_delete=models.CASCADE, db_column='pk')
+    post = models.ForeignKey(dashBourdBd, related_name='comments', on_delete=models.CASCADE, db_column='pk',blank=False,null=True)
     name = models.ForeignKey(CustomUser, related_name='userCreated', on_delete=models.DO_NOTHING, db_column='username')
     file = models.FileField(blank=True, null=True)
     body = models.TextField()

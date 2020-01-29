@@ -3,10 +3,12 @@
 from django.contrib import admin
 
 from .models import dashBourdBd, ticketChat
-
+from simple_history import register
+from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 
 @admin.register(dashBourdBd)
-class dashBourdBdAdmin(admin.ModelAdmin):
+class dashBourdBdAdmin(SimpleHistoryAdmin):
     list_display = (
         'id',
         'data',
@@ -14,7 +16,7 @@ class dashBourdBdAdmin(admin.ModelAdmin):
         'content',
         'autors',
         'priority',
-        'types',
+        # 'types',
         'status',
         'File',
     )
@@ -33,3 +35,5 @@ class ticketChatAdmin(admin.ModelAdmin):
     )
     list_filter = ('post', 'created', 'updated',)
     search_fields = ('name',)
+
+register(dashBourdBd)

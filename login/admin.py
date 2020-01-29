@@ -8,10 +8,10 @@ from .models import CustomUser
 @admin.register(CustomUser)
 class AuthorAdmin(UserAdmin):
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('username', 'password','root')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
         (_('Permissions'), {
-            'fields': ('role', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions',),
+            'fields': ( 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions',),
         }),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
